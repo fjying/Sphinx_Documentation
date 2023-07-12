@@ -16,16 +16,17 @@ build:
 
 # Build documentation in the "docs/" directory with Sphinx
 sphinx:
-  configuration: docs/source/conf.py
+  configuration: Vatic_Documentation/docs/source/conf.py
   # You can configure Sphinx to use a different builder, for instance use the dirhtml builder for simpler URLs
   # builder: "dirhtml"
   # Fail on all warnings to avoid broken references
   # fail_on_warning: true
 
 # Explicitly set the version of Python and its requirements
+# relative path to the folder of the .readthedocs.yaml
 #python:
   install:
-    - requirements: docs/source/requirements.txt
+    - requirements: Vatic_Documentation/docs/source/conf.py
 # Optionally build your docs in additional formats such as PDF and ePub
 # formats:
 #    - pdf
