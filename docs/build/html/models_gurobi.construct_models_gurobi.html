@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>models_gurobi.construct_models_gurobi package &mdash; Vatic_Gurobipy 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Vatic_Gurobipy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">models_gurobi.construct_models_gurobi package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.generation_limits_gurobi">models_gurobi.construct_models_gurobi.generation_limits_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.generation_limits_gurobi.MLR_generation_limits"><code class="docutils literal notranslate"><span class="pre">MLR_generation_limits()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.generation_limits_gurobi.pan_guan_gentile_KOW_generation_limits"><code class="docutils literal notranslate"><span class="pre">pan_guan_gentile_KOW_generation_limits()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi">models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_initial_monitored_branches"><code class="docutils literal notranslate"><span class="pre">add_initial_monitored_branches()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_monitored_flow_tracker"><code class="docutils literal notranslate"><span class="pre">add_monitored_flow_tracker()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.check_and_scale_ptdf_options"><code class="docutils literal notranslate"><span class="pre">check_and_scale_ptdf_options()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.populate_default_ptdf_options"><code class="docutils literal notranslate"><span class="pre">populate_default_ptdf_options()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi">models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi.file_non_dispatchable_vars"><code class="docutils literal notranslate"><span class="pre">file_non_dispatchable_vars()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.objective_gurobi">models_gurobi.construct_models_gurobi.objective_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.objective_gurobi.basic_objective"><code class="docutils literal notranslate"><span class="pre">basic_objective()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.params_gurobi">models_gurobi.construct_models_gurobi.params_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.params_gurobi.default_params"><code class="docutils literal notranslate"><span class="pre">default_params()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.params_gurobi.load_base_params"><code class="docutils literal notranslate"><span class="pre">load_base_params()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.params_gurobi.renew_cost_params"><code class="docutils literal notranslate"><span class="pre">renew_cost_params()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.power_balance_gurobi">models_gurobi.construct_models_gurobi.power_balance_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.power_balance_gurobi.ptdf_power_flow"><code class="docutils literal notranslate"><span class="pre">ptdf_power_flow()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.power_vars_gurobi">models_gurobi.construct_models_gurobi.power_vars_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.power_vars_gurobi.garver_power_vars"><code class="docutils literal notranslate"><span class="pre">garver_power_vars()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.production_costs_gurobi">models_gurobi.construct_models_gurobi.production_costs_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.production_costs_gurobi.CA_production_costs"><code class="docutils literal notranslate"><span class="pre">CA_production_costs()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.production_costs_gurobi.KOW_production_costs_tightened"><code class="docutils literal notranslate"><span class="pre">KOW_production_costs_tightened()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.ptdf_utils_gurobi">models_gurobi.construct_models_gurobi.ptdf_utils_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix</span></code></a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_abs_max"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_ldf_abs_max()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_c"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_ldf_c()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_ldf_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_losses_phase_shift"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_losses_phase_shift()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_phi_losses_adj"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_phi_losses_adj()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_bus_phi_losses_adj"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_bus_phi_losses_adj()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix</span></code></a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.bus_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.bus_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.calculate_PFV"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.calculate_PFV()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_const"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_const()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phase_shift"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_phase_shift()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phi_adj"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_phi_adj()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_ptdf_abs_max()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_ptdf_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_const"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_interface_const()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_interface_ptdf_abs_max()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_interface_ptdf_iterator()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix</span></code></a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_LMP"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_LMP()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_PFV()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV_delta"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_PFV_delta()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_masked_PFV()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV_delta"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_masked_PFV_delta()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_monitored_contingency_flows"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_monitored_contingency_flows()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_const"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_branch_const()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_branch_ptdf_abs_max()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_branch_ptdf_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_const"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_contingency_branch_const()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_contingency_branch_ptdf_abs_max()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_contingency_branch_ptdf_iterator()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_const"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_interface_const()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_interface_ptdf_abs_max()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_interface_ptdf_iterator()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.ramping_limits_gurobi">models_gurobi.construct_models_gurobi.ramping_limits_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.ramping_limits_gurobi.damcikurt_ramping"><code class="docutils literal notranslate"><span class="pre">damcikurt_ramping()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.reserve_requirement_gurobi">models_gurobi.construct_models_gurobi.reserve_requirement_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.CA_reserve_constraints"><code class="docutils literal notranslate"><span class="pre">CA_reserve_constraints()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.MLR_reserve_constraints"><code class="docutils literal notranslate"><span class="pre">MLR_reserve_constraints()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.reserve_vars_gurobi">models_gurobi.construct_models_gurobi.reserve_vars_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.reserve_vars_gurobi.MLR_reserve_vars"><code class="docutils literal notranslate"><span class="pre">MLR_reserve_vars()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.reserve_vars_gurobi.check_reserve_requirement"><code class="docutils literal notranslate"><span class="pre">check_reserve_requirement()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.reserve_vars_gurobi.garver_power_avail_vars"><code class="docutils literal notranslate"><span class="pre">garver_power_avail_vars()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.services_gurobi">models_gurobi.construct_models_gurobi.services_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.services_gurobi.ancillary_services"><code class="docutils literal notranslate"><span class="pre">ancillary_services()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.services_gurobi.storage_services"><code class="docutils literal notranslate"><span class="pre">storage_services()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.startup_costs_gurobi">models_gurobi.construct_models_gurobi.startup_costs_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.startup_costs_gurobi.KOW_startup_costs"><code class="docutils literal notranslate"><span class="pre">KOW_startup_costs()</span></code></a></li>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.startup_costs_gurobi.MLR_startup_costs"><code class="docutils literal notranslate"><span class="pre">MLR_startup_costs()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi.uptime_downtime_gurobi">models_gurobi.construct_models_gurobi.uptime_downtime_gurobi module</a><ul>
+<li><a class="reference internal" href="#models_gurobi.construct_models_gurobi.uptime_downtime_gurobi.rajan_takriti_UT_DT"><code class="docutils literal notranslate"><span class="pre">rajan_takriti_UT_DT()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-models_gurobi.construct_models_gurobi">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Vatic_Gurobipy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">models_gurobi.construct_models_gurobi package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/models_gurobi.construct_models_gurobi.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="models-gurobi-construct-models-gurobi-package">
+<h1>models_gurobi.construct_models_gurobi package<a class="headerlink" href="#models-gurobi-construct-models-gurobi-package" title="Permalink to this heading"></a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.generation_limits_gurobi">
+<span id="models-gurobi-construct-models-gurobi-generation-limits-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.generation_limits_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.generation_limits_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add generatoin limit constraints</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.generation_limits_gurobi.MLR_generation_limits">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.generation_limits_gurobi.</span></span><span class="sig-name descname"><span class="pre">MLR_generation_limits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/generation_limits_gurobi.html#MLR_generation_limits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.generation_limits_gurobi.MLR_generation_limits" title="Permalink to this definition"></a></dt>
+<dd><p>Add MLR generation limits based on
+Equations (9)–(11) from G. Morales-Espana, J. M. Latorre, and A. Ramos.
+Tight and compact MILP formulation for the thermal unit commitment problem.
+IEEE Transactions on Power Systems, 28(4):4897–4908, 2013.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.generation_limits_gurobi.pan_guan_gentile_KOW_generation_limits">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.generation_limits_gurobi.</span></span><span class="sig-name descname"><span class="pre">pan_guan_gentile_KOW_generation_limits</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/generation_limits_gurobi.html#pan_guan_gentile_KOW_generation_limits"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.generation_limits_gurobi.pan_guan_gentile_KOW_generation_limits" title="Permalink to this definition"></a></dt>
+<dd><p>Add pan_guan_gentile_generation_limits plus the generalized upper bound
+limits introduced in the text equations (32)–(34)</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi">
+<span id="models-gurobi-construct-models-gurobi-lazy-ptdf-utils-part-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi" title="Permalink to this heading"></a></h2>
+<p>Helpers functions for flow verification across dcopf and models</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_initial_monitored_branches">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.</span></span><span class="sig-name descname"><span class="pre">add_initial_monitored_branches</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parent_model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branches_in_service</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptdf_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PTDF</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/lazy_ptdf_utils_part_gurobi.html#add_initial_monitored_branches"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_initial_monitored_branches" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_monitored_flow_tracker">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.</span></span><span class="sig-name descname"><span class="pre">add_monitored_flow_tracker</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/lazy_ptdf_utils_part_gurobi.html#add_monitored_flow_tracker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_monitored_flow_tracker" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.check_and_scale_ptdf_options">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.</span></span><span class="sig-name descname"><span class="pre">check_and_scale_ptdf_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptdf_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">baseMVA</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/lazy_ptdf_utils_part_gurobi.html#check_and_scale_ptdf_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.check_and_scale_ptdf_options" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.populate_default_ptdf_options">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.</span></span><span class="sig-name descname"><span class="pre">populate_default_ptdf_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ptdf_options</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/lazy_ptdf_utils_part_gurobi.html#populate_default_ptdf_options"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.populate_default_ptdf_options" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi">
+<span id="models-gurobi-construct-models-gurobi-non-dispatchable-vars-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add non dispatchabe power used variables</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi.file_non_dispatchable_vars">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi.</span></span><span class="sig-name descname"><span class="pre">file_non_dispatchable_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/non_dispatchable_vars_gurobi.html#file_non_dispatchable_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.non_dispatchable_vars_gurobi.file_non_dispatchable_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Add non dispatchable power variables</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.objective_gurobi">
+<span id="models-gurobi-construct-models-gurobi-objective-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.objective_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.objective_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add the total cost objective</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.objective_gurobi.basic_objective">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.objective_gurobi.</span></span><span class="sig-name descname"><span class="pre">basic_objective</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/objective_gurobi.html#basic_objective"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.objective_gurobi.basic_objective" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate the total cost objective</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.params_gurobi">
+<span id="models-gurobi-construct-models-gurobi-params-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.params_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.params_gurobi" title="Permalink to this heading"></a></h2>
+<p>Load and validate input of grid data to gurobi models</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.params_gurobi.default_params">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.params_gurobi.</span></span><span class="sig-name descname"><span class="pre">default_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">VaticModelData</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/params_gurobi.html#default_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.params_gurobi.default_params" title="Permalink to this definition"></a></dt>
+<dd><p>Call main function to load grid data into parameters of gurobi model
+without renewable costs</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.params_gurobi.load_base_params">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.params_gurobi.</span></span><span class="sig-name descname"><span class="pre">load_base_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">VaticModelData</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">renew_costs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/params_gurobi.html#load_base_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.params_gurobi.load_base_params" title="Permalink to this definition"></a></dt>
+<dd><p>Main Function to Load grid data into parameters of gurobi model</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.params_gurobi.renew_cost_params">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.params_gurobi.</span></span><span class="sig-name descname"><span class="pre">renew_cost_params</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">model_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">VaticModelData</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/params_gurobi.html#renew_cost_params"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.params_gurobi.renew_cost_params" title="Permalink to this definition"></a></dt>
+<dd><p>Call main function to load grid data into parameters of gurobi model
+with renewable costs</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.power_balance_gurobi">
+<span id="models-gurobi-construct-models-gurobi-power-balance-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.power_balance_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.power_balance_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add systemwise power balance variables and constraints to impose the constraints
+on supply-demand mismatch at each bus level and impose the power flow constraints</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.power_balance_gurobi.ptdf_power_flow">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.power_balance_gurobi.</span></span><span class="sig-name descname"><span class="pre">ptdf_power_flow</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">slacks</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/power_balance_gurobi.html#ptdf_power_flow"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.power_balance_gurobi.ptdf_power_flow" title="Permalink to this definition"></a></dt>
+<dd><p>Add constraints to impose the upper bounds on supply-demand mismatch and
+ensure the power flow balance</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.power_vars_gurobi">
+<span id="models-gurobi-construct-models-gurobi-power-vars-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.power_vars_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.power_vars_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add power generated and reactive power generated variables</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.power_vars_gurobi.garver_power_vars">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.power_vars_gurobi.</span></span><span class="sig-name descname"><span class="pre">garver_power_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/power_vars_gurobi.html#garver_power_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.power_vars_gurobi.garver_power_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Add PowerGeneratedAboveMinimum variables,
+the main variable representing generator output.</p>
+<p>Originally proposed in L. L. Garver. Power generation scheduling by integer programming-development
+of theory. Power Apparatus and Systems, Part III. Transactions of the
+American Institute of Electrical Engineers, 81(3): 730–734, April 1962. ISSN
+0097-2460.</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.production_costs_gurobi">
+<span id="models-gurobi-construct-models-gurobi-production-costs-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.production_costs_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.production_costs_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add production cost constraints, piecewise production variables, and
+production cost variables</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.production_costs_gurobi.CA_production_costs">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.production_costs_gurobi.</span></span><span class="sig-name descname"><span class="pre">CA_production_costs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/production_costs_gurobi.html#CA_production_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.production_costs_gurobi.CA_production_costs" title="Permalink to this definition"></a></dt>
+<dd><p>Add production costs constraints with additional variables for each
+piecewise linear segment based on equations (7)–(11) in
+M. Carrion and J. M. Arroyo. A computationally efficient mixed-integer
+linear formulation for the thermal unit commitment problem. IEEE
+Transactions on Power Systems, 21(3):1371–1378, Aug 2006. ISSN 0885-8950.
+doi: 10.1109/TPWRS.2006.876672.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.production_costs_gurobi.KOW_production_costs_tightened">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.production_costs_gurobi.</span></span><span class="sig-name descname"><span class="pre">KOW_production_costs_tightened</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/production_costs_gurobi.html#KOW_production_costs_tightened"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.production_costs_gurobi.KOW_production_costs_tightened" title="Permalink to this definition"></a></dt>
+<dd><p>Add production costs constraints based on
+Ben Knueven, Jim Ostrowski, and Jean-Paul Watson. Exploiting identical
+generators in unit commitment. IEEE Transactions on Power Systems,
+33(4), 2018. Equations (19d)–(19h) with some tightening for when SU != SD</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.ptdf_utils_gurobi">
+<span id="models-gurobi-construct-models-gurobi-ptdf-utils-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.ptdf_utils_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.ptdf_utils_gurobi" title="Permalink to this heading"></a></h2>
+<p>Helper functions and classes that are useful when
+modifying the data dictionary</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.</span></span><span class="sig-name descname"><span class="pre">PTDFLossesMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_bus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptdf_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branches_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buses_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interfaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFLossesMatrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <a class="reference internal" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix" title="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix"><code class="xref py py-class docutils literal notranslate"><span class="pre">PTDFMatrix</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_abs_max">
+<span class="sig-name descname"><span class="pre">get_branch_ldf_abs_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFLossesMatrix.get_branch_ldf_abs_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_abs_max" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_c">
+<span class="sig-name descname"><span class="pre">get_branch_ldf_c</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFLossesMatrix.get_branch_ldf_c"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_c" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_iterator">
+<span class="sig-name descname"><span class="pre">get_branch_ldf_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFLossesMatrix.get_branch_ldf_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_iterator" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_losses_phase_shift">
+<span class="sig-name descname"><span class="pre">get_branch_losses_phase_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFLossesMatrix.get_branch_losses_phase_shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_losses_phase_shift" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_phi_losses_adj">
+<span class="sig-name descname"><span class="pre">get_branch_phi_losses_adj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFLossesMatrix.get_branch_phi_losses_adj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_phi_losses_adj" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_bus_phi_losses_adj">
+<span class="sig-name descname"><span class="pre">get_bus_phi_losses_adj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">bus_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFLossesMatrix.get_bus_phi_losses_adj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_bus_phi_losses_adj" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.</span></span><span class="sig-name descname"><span class="pre">PTDFMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_bus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptdf_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branches_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buses_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interfaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_PTDFManagerBase</span></code></p>
+<p>This is a helper</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.bus_iterator">
+<span class="sig-name descname"><span class="pre">bus_iterator</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.bus_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.bus_iterator" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.calculate_PFV">
+<span class="sig-name descname"><span class="pre">calculate_PFV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.calculate_PFV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.calculate_PFV" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_const">
+<span class="sig-name descname"><span class="pre">get_branch_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_branch_const"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_const" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phase_shift">
+<span class="sig-name descname"><span class="pre">get_branch_phase_shift</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_branch_phase_shift"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phase_shift" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phi_adj">
+<span class="sig-name descname"><span class="pre">get_branch_phi_adj</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_branch_phi_adj"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phi_adj" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_abs_max">
+<span class="sig-name descname"><span class="pre">get_branch_ptdf_abs_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_branch_ptdf_abs_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_abs_max" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_iterator">
+<span class="sig-name descname"><span class="pre">get_branch_ptdf_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_branch_ptdf_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_iterator" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_const">
+<span class="sig-name descname"><span class="pre">get_interface_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_interface_const"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_const" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_abs_max">
+<span class="sig-name descname"><span class="pre">get_interface_ptdf_abs_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_interface_ptdf_abs_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_abs_max" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_iterator">
+<span class="sig-name descname"><span class="pre">get_interface_ptdf_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#PTDFMatrix.get_interface_ptdf_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_iterator" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.</span></span><span class="sig-name descname"><span class="pre">VirtualPTDFMatrix</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branches</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buses</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reference_bus</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">base_point</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ptdf_options</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branches_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">buses_keys</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">interfaces</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">contingencies</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">_PTDFManagerBase</span></code></p>
+<p>Helper class which <em>looks like</em> a PTDF matrix, but doesn’t
+actually calculate/store a PTDF matrix. Keeps a factorization
+of A^T B_d A instead (or A^T J in internal parlance) and
+computes flows and needed PTDF rows on-the-fly.</p>
+<p>Already calculated PTDF rows are cached for easy retreval on
+subsequent calls</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_LMP">
+<span class="sig-name descname"><span class="pre">calculate_LMP</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">LMPC_Constrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LMPI_Constrs</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">LMPE_Constrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.calculate_LMP"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_LMP" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate a vector of locational marginal prices
+indexed by buses_keys.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>LMPC_Constrs</strong> (<em>Model Constraints Related to</em>) – </p></li>
+<li><p><strong>LMPI_Constrs</strong> (<em>Model Constraints Related to</em>) – </p></li>
+<li><p><strong>LMPE_Constrs</strong> (<em>Model Constraints Related to</em>) – </p></li>
+<li><p><strong>prices</strong> (<em>different parts</em><em> of </em><em>lmp</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>LMP</strong></p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.array of LMPs indexed by buses_keys</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV">
+<span class="sig-name descname"><span class="pre">calculate_PFV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.calculate_PFV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate a vector of real power branch
+flows indexed by branches_keys, a vector
+of interface flows indexed by interface_keys,
+and a vector of bus voltage angles indexed
+by buses_keys, for given ConcreteModel or
+Block with populated p_nw variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mb</strong> (<em>Gurobipy Model with p_nw attribute indexed by buses</em>) – </p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>tuple</strong> – real power flow, interface flow, voltage
+angles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>(PFV, PFV_I, VA). np.arrays for</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV_delta">
+<span class="sig-name descname"><span class="pre">calculate_PFV_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PFV</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VA</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.calculate_PFV_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV_delta" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate a vector of real power
+flows indexed by branches_keys, for given
+contingency cn, for given base-case real
+power flow and voltage angles given by
+calculate_PFV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cn</strong> (<em>contingency name to calculate PFV_delta for</em>) – </p></li>
+<li><p><strong>PFV</strong> (<em>vector</em><em> of </em><em>flows returned from calculate_PFV</em>) – </p></li>
+<li><p><strong>VA</strong> (<em>vector</em><em> of </em><em>voltage angles returned from calculate_PFV</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>PFV_delta</strong> – such that PFV + PFV_delta is the contingeny flow</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.arrays for partial contingency flow differences,</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV">
+<span class="sig-name descname"><span class="pre">calculate_masked_PFV</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.calculate_masked_PFV"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate a vector of partial real power
+flows indexed by branches_masked_keys, a vector
+of interface flows indexed by interface_keys,
+and a vector of bus voltage angles indexed
+by buses_keys, for given ConcreteModel or
+Block with populated p_nw variable.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mb</strong> (<em>Pyomo ConcreteModel</em><em> or </em><em>Block with p_nw attribute</em>) – indexed by buses</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>tuple</strong> – real power flow, interface flow, voltage
+angles.</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>PFV, PFV_I, VA. np.arrays for partial</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV_delta">
+<span class="sig-name descname"><span class="pre">calculate_masked_PFV_delta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cn</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">PFV</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">VA</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.calculate_masked_PFV_delta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV_delta" title="Permalink to this definition"></a></dt>
+<dd><p>Calculate a vector of partial real power
+flows indexed by branches_masked_keys, for given
+contingency cn, for given base-case real
+power flow and voltage angles given by
+calculate_masked_PFV</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cn</strong> (<em>contingency name to calculate PFV_delta for</em>) – </p></li>
+<li><p><strong>PFV</strong> (<em>vector</em><em> of </em><em>flows returned from calculate_masked_PFV</em>) – </p></li>
+<li><p><strong>VA</strong> (<em>vector</em><em> of </em><em>voltage angles returned from calculate_masked_PFV</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p><strong>PFV_delta</strong> – such that PFV + PFV_delta is the contingeny flow</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>np.arrays for partial contingency flow differences,</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_monitored_contingency_flows">
+<span class="sig-name descname"><span class="pre">calculate_monitored_contingency_flows</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mb</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.calculate_monitored_contingency_flows"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_monitored_contingency_flows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_const">
+<span class="sig-name descname"><span class="pre">get_branch_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_branch_const"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_const" title="Permalink to this definition"></a></dt>
+<dd><p>returns the constant coefficient for branch_name ‘s
+power flow equation (given bus net withdrawls)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_abs_max">
+<span class="sig-name descname"><span class="pre">get_branch_ptdf_abs_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_branch_ptdf_abs_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_abs_max" title="Permalink to this definition"></a></dt>
+<dd><p>returns the maximum of the absolute value for any coefficent
+in branch_name’s ptdf row</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_iterator">
+<span class="sig-name descname"><span class="pre">get_branch_ptdf_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_branch_ptdf_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_iterator" title="Permalink to this definition"></a></dt>
+<dd><p>returns a (bus_name, coefficient) iterator for a given branch_name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_const">
+<span class="sig-name descname"><span class="pre">get_contingency_branch_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contingency_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_contingency_branch_const"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_const" title="Permalink to this definition"></a></dt>
+<dd><p>returns the constant coefficient for branch_name ‘s
+power flow equation (given bus net withdrawls)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_abs_max">
+<span class="sig-name descname"><span class="pre">get_contingency_branch_ptdf_abs_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contingency_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_contingency_branch_ptdf_abs_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_abs_max" title="Permalink to this definition"></a></dt>
+<dd><p>returns the maximum of the absolute value for any coefficent
+in branch_name’s ptdf row</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_iterator">
+<span class="sig-name descname"><span class="pre">get_contingency_branch_ptdf_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">contingency_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">branch_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_contingency_branch_ptdf_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_iterator" title="Permalink to this definition"></a></dt>
+<dd><p>returns a (bus_name, coefficient) iterator for a given branch_name</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_const">
+<span class="sig-name descname"><span class="pre">get_interface_const</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_interface_const"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_const" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the constant coefficient for interface_names ‘s
+power flow equation (given bus net withdrawls)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_abs_max">
+<span class="sig-name descname"><span class="pre">get_interface_ptdf_abs_max</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_interface_ptdf_abs_max"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_abs_max" title="Permalink to this definition"></a></dt>
+<dd><p>Returns the maximum of the absolute value for any coefficent
+in branch_name’s PTDF row</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_iterator">
+<span class="sig-name descname"><span class="pre">get_interface_ptdf_iterator</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">interface_name</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ptdf_utils_gurobi.html#VirtualPTDFMatrix.get_interface_ptdf_iterator"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_iterator" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a (bus_name, coefficient) iterator for a given interface_name</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.ramping_limits_gurobi">
+<span id="models-gurobi-construct-models-gurobi-ramping-limits-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.ramping_limits_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.ramping_limits_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add ramping up and down limits</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.ramping_limits_gurobi.damcikurt_ramping">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.ramping_limits_gurobi.</span></span><span class="sig-name descname"><span class="pre">damcikurt_ramping</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/ramping_limits_gurobi.html#damcikurt_ramping"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.ramping_limits_gurobi.damcikurt_ramping" title="Permalink to this definition"></a></dt>
+<dd><p>Add ramping limits based on Equations (3) and (18) from
+Pelin Damci-Kurt, Simge Kucukyavuz, Deepak Rajan, and Alper Atamturk. A
+polyhedral study of production ramping. Mathematical Programming,
+158(1-2):175–205, 2016.</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.reserve_requirement_gurobi">
+<span id="models-gurobi-construct-models-gurobi-reserve-requirement-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.reserve_requirement_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.reserve_requirement_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add reserve constraints and reserve shortfall variables</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.CA_reserve_constraints">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.</span></span><span class="sig-name descname"><span class="pre">CA_reserve_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/reserve_requirement_gurobi.html#CA_reserve_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.CA_reserve_constraints" title="Permalink to this definition"></a></dt>
+<dd><p>Add reserve constraints with slacks given by equation (3) in
+Carrion, M. and Arroyo, J. (2006) A Computationally Efficient Mixed-Integer
+Liner Formulation for the Thermal Unit Commitment Problem. IEEE Transactions
+on Power Systems, Vol. 21, No. 3, Aug 2006.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.MLR_reserve_constraints">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.</span></span><span class="sig-name descname"><span class="pre">MLR_reserve_constraints</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/reserve_requirement_gurobi.html#MLR_reserve_constraints"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.reserve_requirement_gurobi.MLR_reserve_constraints" title="Permalink to this definition"></a></dt>
+<dd><p>Add reserve constraints with slacks given by equation (5) in
+G. Morales-Espana, J. M. Latorre, and A. Ramos. Tight and compact MILP
+formulation for the thermal unit commitment problem. IEEE Transactions on
+Power Systems, 28(4):4897–4908, 2013.</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.reserve_vars_gurobi">
+<span id="models-gurobi-construct-models-gurobi-reserve-vars-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.reserve_vars_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.reserve_vars_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add maximum power available above minimum variables, reserve provided variables,
+and generator output limits constraints</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.reserve_vars_gurobi.MLR_reserve_vars">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.reserve_vars_gurobi.</span></span><span class="sig-name descname"><span class="pre">MLR_reserve_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/reserve_vars_gurobi.html#MLR_reserve_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.reserve_vars_gurobi.MLR_reserve_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Add reserves provided variables as in
+G. Morales-Espana, J. M. Latorre, and A. Ramos. Tight and compact MILP
+formulation for the thermal unit commitment problem. IEEE Transactions on
+Power Systems, 28(4):4897–4908, 2013.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.reserve_vars_gurobi.check_reserve_requirement">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.reserve_vars_gurobi.</span></span><span class="sig-name descname"><span class="pre">check_reserve_requirement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/reserve_vars_gurobi.html#check_reserve_requirement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.reserve_vars_gurobi.check_reserve_requirement" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.reserve_vars_gurobi.garver_power_avail_vars">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.reserve_vars_gurobi.</span></span><span class="sig-name descname"><span class="pre">garver_power_avail_vars</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/reserve_vars_gurobi.html#garver_power_avail_vars"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.reserve_vars_gurobi.garver_power_avail_vars" title="Permalink to this definition"></a></dt>
+<dd><p>Add MaximumPowerAvailableAboveMinimum variables based on the
+adaption of the idea from the Carrion-Arroyo paper for maximum power available
+to consider maximum power available over minimum</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.services_gurobi">
+<span id="models-gurobi-construct-models-gurobi-services-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.services_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.services_gurobi" title="Permalink to this heading"></a></h2>
+<p>Pseudo functions to add storage services and ancillary services in the future</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.services_gurobi.ancillary_services">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.services_gurobi.</span></span><span class="sig-name descname"><span class="pre">ancillary_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/services_gurobi.html#ancillary_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.services_gurobi.ancillary_services" title="Permalink to this definition"></a></dt>
+<dd><p>Add ancillary services: regulation, spinning reserve, nonspinning reserve, operational reserve, flexible ramp</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.services_gurobi.storage_services">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.services_gurobi.</span></span><span class="sig-name descname"><span class="pre">storage_services</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/services_gurobi.html#storage_services"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.services_gurobi.storage_services" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.startup_costs_gurobi">
+<span id="models-gurobi-construct-models-gurobi-startup-costs-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.startup_costs_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.startup_costs_gurobi" title="Permalink to this heading"></a></h2>
+<p>Add startup costs constraints and the related variables</p>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.startup_costs_gurobi.KOW_startup_costs">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.startup_costs_gurobi.</span></span><span class="sig-name descname"><span class="pre">KOW_startup_costs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_startup_cost_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/startup_costs_gurobi.html#KOW_startup_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.startup_costs_gurobi.KOW_startup_costs" title="Permalink to this definition"></a></dt>
+<dd><p>Add start up cost constaints based on
+Ben Knueven, Jim Ostrowski, and Jean-Paul Watson. A novel matching
+formulation for startup costs in unit commitment, 2017.
+URL <a class="reference external" href="http://www.optimization-online.org/DB_FILE/2017/03/5897.pdf">http://www.optimization-online.org/DB_FILE/2017/03/5897.pdf</a>.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.startup_costs_gurobi.MLR_startup_costs">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.startup_costs_gurobi.</span></span><span class="sig-name descname"><span class="pre">MLR_startup_costs</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">add_startup_cost_var</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/startup_costs_gurobi.html#MLR_startup_costs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.startup_costs_gurobi.MLR_startup_costs" title="Permalink to this definition"></a></dt>
+<dd><p>Add startup cost constraints based on equations (2)–(3) from
+G. Morales-Espana, J. M. Latorre, and A. Ramos. Tight and compact MILP
+formulation for the thermal unit commitment problem. IEEE Transactions on
+Power Systems, 28(4):4897–4908, 2013.</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi.uptime_downtime_gurobi">
+<span id="models-gurobi-construct-models-gurobi-uptime-downtime-gurobi-module"></span><h2>models_gurobi.construct_models_gurobi.uptime_downtime_gurobi module<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi.uptime_downtime_gurobi" title="Permalink to this heading"></a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="models_gurobi.construct_models_gurobi.uptime_downtime_gurobi.rajan_takriti_UT_DT">
+<span class="sig-prename descclassname"><span class="pre">models_gurobi.construct_models_gurobi.uptime_downtime_gurobi.</span></span><span class="sig-name descname"><span class="pre">rajan_takriti_UT_DT</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">model</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Model</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Model</span></span></span><a class="reference internal" href="_modules/models_gurobi/construct_models_gurobi/uptime_downtime_gurobi.html#rajan_takriti_UT_DT"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#models_gurobi.construct_models_gurobi.uptime_downtime_gurobi.rajan_takriti_UT_DT" title="Permalink to this definition"></a></dt>
+<dd><p>Uptime/downtime constraints (3) and (4) from</p>
+<p>D. Rajan and S. Takriti. Minimum up/down polytopes of the unit commitment
+problem with start-up costs. IBM Res. Rep, 2005.</p>
+</dd></dl>
+
+</section>
+<section id="module-models_gurobi.construct_models_gurobi">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-models_gurobi.construct_models_gurobi" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Junying (Alice) Fang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
