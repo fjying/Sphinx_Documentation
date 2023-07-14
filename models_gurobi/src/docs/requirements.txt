@@ -1,0 +1,4 @@
+gurobipy==10.0.0
+dill
+ordered-set
+gridx-egret @ git+https://github.com/shrivats-pu/Egret.git
