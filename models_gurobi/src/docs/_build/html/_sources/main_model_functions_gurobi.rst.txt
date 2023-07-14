@@ -1,0 +1,29 @@
+main\_model\_functions\_gurobi package
+======================================
+
+Submodules
+----------
+
+main\_model\_functions\_gurobi.generate\_model\_gurobi module
+-------------------------------------------------------------
+
+.. automodule:: main_model_functions_gurobi.generate_model_gurobi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+main\_model\_functions\_gurobi.solve\_model\_gurobi module
+----------------------------------------------------------
+
+.. automodule:: main_model_functions_gurobi.solve_model_gurobi
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: main_model_functions_gurobi
+   :members:
+   :undoc-members:
+   :show-inheritance:

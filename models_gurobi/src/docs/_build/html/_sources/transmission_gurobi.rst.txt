@@ -1,0 +1,29 @@
+transmission\_gurobi package
+============================
+
+Submodules
+----------
+
+transmission\_gurobi.branch module
+----------------------------------
+
+.. automodule:: transmission_gurobi.branch
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+transmission\_gurobi.bus module
+-------------------------------
+
+.. automodule:: transmission_gurobi.bus
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: transmission_gurobi
+   :members:
+   :undoc-members:
+   :show-inheritance:

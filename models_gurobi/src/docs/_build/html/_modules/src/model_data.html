@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src.model_data &mdash; Vatic_Gurobipy 1.0.0 documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/sphinx_highlight.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Vatic_Gurobipy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"></div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Vatic_Gurobipy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">src.model_data</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for src.model_data</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Representations of grid states used as optimization model input/output.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">dill</span> <span class="k">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">copy</span><span class="p">,</span> <span class="n">deepcopy</span>
+<span class="kn">from</span> <span class="nn">egret.data.model_data</span> <span class="kn">import</span> <span class="n">ModelData</span> <span class="k">as</span> <span class="n">EgretModel</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TypeVar</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">Iterator</span>
+<span class="n">VModelData</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s1">&#39;VModelData&#39;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s1">&#39;VaticModelData&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="ModelError"><a class="viewcode-back" href="../../src.html#src.model_data.ModelError">[docs]</a><span class="k">class</span> <span class="nc">ModelError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+    <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="VaticModelData"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData">[docs]</a><span class="k">class</span> <span class="nc">VaticModelData</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simplified version of egret.data.model_data.ModelData&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">source</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">VModelData</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">Path</span><span class="p">,</span> <span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">source</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="n">VaticModelData</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">_data</span>
+
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">)):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">Path</span><span class="p">(</span><span class="n">source</span><span class="p">)</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span>
+                    <span class="s2">&quot;Cannot find model input file `</span><span class="si">{}</span><span class="s2">`!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">source</span><span class="p">))</span>
+
+            <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">source</span><span class="p">,</span> <span class="s1">&#39;rb&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="k">elif</span> <span class="n">source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;system&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(),</span> <span class="s1">&#39;elements&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()}</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unrecognized source for ModelData&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">__copy__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">VaticModelData</span><span class="p">(</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">__deepcopy__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">memo</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">VaticModelData</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">,</span> <span class="n">memo</span><span class="p">))</span>
+
+<div class="viewcode-block" id="VaticModelData.clone_in_service"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.clone_in_service">[docs]</a>    <span class="k">def</span> <span class="nf">clone_in_service</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">VModelData</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Returns a version of this grid without out-of-service elements.&quot;&quot;&quot;</span>
+
+        <span class="n">new_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;system&#39;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">],</span> <span class="s1">&#39;elements&#39;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">element_type</span><span class="p">,</span> <span class="n">elements</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="n">new_dict</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="n">element_type</span><span class="p">]</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+
+            <span class="c1"># only copy elements which are in service or for which service</span>
+            <span class="c1"># status is not defined in the first place</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">elements</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="s1">&#39;in_service&#39;</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">elem</span> <span class="ow">or</span> <span class="n">elem</span><span class="p">[</span><span class="s1">&#39;in_service&#39;</span><span class="p">]:</span>
+                    <span class="n">new_dict</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="n">element_type</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">elem</span>
+
+        <span class="k">return</span> <span class="n">VaticModelData</span><span class="p">(</span><span class="n">new_dict</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VaticModelData.elements"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.elements">[docs]</a>    <span class="k">def</span> <span class="nf">elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                 <span class="n">element_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                 <span class="o">**</span><span class="n">element_args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves grid elements that match a set of criteria.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        element_type    Which type of element to search within, e.g. &#39;bus&#39;,</span>
+<span class="sd">                        &#39;generator&#39;, &#39;load&#39;, &#39;branch&#39;, etc.</span>
+<span class="sd">        element_args    A set of element property values, all of which must be</span>
+<span class="sd">                        present in an element&#39;s data entry and equal to the</span>
+<span class="sd">                        given value for the element&#39;s entry to be returned.</span>
+<span class="sd">                            e.g. generator_type=&#39;renewable&#39; bus=&#39;Chifa&#39;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">element_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]:</span>
+            <span class="k">return</span>
+
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="n">element_type</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="n">k</span> <span class="ow">in</span> <span class="n">elem</span> <span class="ow">and</span> <span class="n">elem</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">==</span> <span class="n">v</span>
+                   <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">element_args</span><span class="o">.</span><span class="n">items</span><span class="p">()):</span>
+                <span class="k">yield</span> <span class="n">name</span><span class="p">,</span> <span class="n">elem</span></div>
+
+<div class="viewcode-block" id="VaticModelData.attributes"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.attributes">[docs]</a>    <span class="k">def</span> <span class="nf">attributes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">element_args</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves grid elements and organizes their data by attribute.</span>
+
+<span class="sd">        This function is identical to the above `elements` function, but it</span>
+<span class="sd">        arranges the data of the elements matching the given criteria in a</span>
+<span class="sd">        dictionary whose top-level keys are attribute names (e.g. &#39;base_kv&#39;,</span>
+<span class="sd">        &#39;fuel&#39;, &#39;p_min&#39;, etc.), each of whose entries list the element names</span>
+<span class="sd">        and their corresponding attribute values.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">element_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="s2">&quot;This model does not include the element &quot;</span>
+                             <span class="s2">&quot;type `</span><span class="si">{}</span><span class="s2">`!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_type</span><span class="p">))</span>
+
+        <span class="n">attr_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;names&#39;</span><span class="p">:</span> <span class="nb">list</span><span class="p">()}</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="p">,</span> <span class="o">**</span><span class="n">element_args</span><span class="p">):</span>
+            <span class="n">attr_dict</span><span class="p">[</span><span class="s1">&#39;names&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+
+            <span class="k">for</span> <span class="n">attr</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">attr</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attr_dict</span><span class="p">:</span>
+                    <span class="n">attr_dict</span><span class="p">[</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">value</span><span class="p">}</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">attr_dict</span><span class="p">[</span><span class="n">attr</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+
+        <span class="k">return</span> <span class="n">attr_dict</span></div>
+
+<div class="viewcode-block" id="VaticModelData.get_system_attr"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.get_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">get_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">attr</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="n">attr</span><span class="p">]</span>
+
+        <span class="c1"># throw error if the attribute is missing and no default value is given</span>
+        <span class="k">elif</span> <span class="n">default</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="s2">&quot;This model does not include the system-level &quot;</span>
+                             <span class="s2">&quot;attribute `</span><span class="si">{}</span><span class="s2">`!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">attr</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">default</span></div>
+
+<div class="viewcode-block" id="VaticModelData.set_system_attr"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.set_system_attr">[docs]</a>    <span class="k">def</span> <span class="nf">set_system_attr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attr</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="n">attr</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span></div>
+
+<div class="viewcode-block" id="VaticModelData.get_reserve_requirement"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.get_reserve_requirement">[docs]</a>    <span class="k">def</span> <span class="nf">get_reserve_requirement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">time_index</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span>
+            <span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_requirement&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="VaticModelData.get_forecastables"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.get_forecastables">[docs]</a>    <span class="k">def</span> <span class="nf">get_forecastables</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">],</span>
+                                                  <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves grid elements&#39; timeseries that can be forecast.&quot;&quot;&quot;</span>
+
+        <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                           <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;renewable&#39;</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="s1">&#39;p_min&#39;</span><span class="p">,</span> <span class="n">gen</span><span class="p">),</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_min&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="s1">&#39;p_max&#39;</span><span class="p">,</span> <span class="n">gen</span><span class="p">),</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_max&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">bus</span><span class="p">,</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s1">&#39;load&#39;</span><span class="p">):</span>
+            <span class="k">yield</span> <span class="p">(</span><span class="s1">&#39;p_load&#39;</span><span class="p">,</span> <span class="n">bus</span><span class="p">),</span> <span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_load&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
+
+        <span class="k">yield</span> <span class="p">(</span><span class="s1">&#39;req&#39;</span><span class="p">,</span> <span class="s1">&#39;reserve&#39;</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span>
+            <span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_requirement&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span></div>
+
+<div class="viewcode-block" id="VaticModelData.time_series"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.time_series">[docs]</a>    <span class="k">def</span> <span class="nf">time_series</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                    <span class="n">element_types</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">include_reserves</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+                    <span class="o">**</span><span class="n">element_args</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="nb">tuple</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Retrieves timeseries for grid elements that match a set of criteria.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        element_types   Which types of element to search within,</span>
+<span class="sd">                        e.g. &#39;storage&#39;, &#39;load&#39;, generator&#39;, &#39;bus&#39;, etc.</span>
+<span class="sd">        include_reserves    Whether to return reserve requirements, which</span>
+<span class="sd">                            will never be returned otherwise.</span>
+
+<span class="sd">        element_args    A set of element property values, all of which must be</span>
+<span class="sd">                        present in an element&#39;s data entry and equal to the</span>
+<span class="sd">                        given value for the element&#39;s entry to be returned.</span>
+<span class="sd">                            e.g. generator_type=&#39;thermal&#39; in_service=True</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">element_types</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">element_types</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">])</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">element_type</span> <span class="ow">in</span> <span class="n">element_types</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">element_type</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">]:</span>
+                    <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="s2">&quot;This model does not include the element &quot;</span>
+                                     <span class="s2">&quot;type `</span><span class="si">{}</span><span class="s2">`!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">element_type</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">element_type</span> <span class="ow">in</span> <span class="n">element_types</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="p">,</span> <span class="o">**</span><span class="n">element_args</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">elem</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span> <span class="ow">and</span> <span class="s1">&#39;data_type&#39;</span> <span class="ow">in</span> <span class="n">v</span>
+                            <span class="ow">and</span> <span class="n">v</span><span class="p">[</span><span class="s1">&#39;data_type&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;time_series&#39;</span><span class="p">):</span>
+                        <span class="k">yield</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">k</span><span class="p">),</span> <span class="n">v</span>
+
+        <span class="k">if</span> <span class="n">include_reserves</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="p">((</span><span class="s1">&#39;system&#39;</span><span class="p">,</span> <span class="s1">&#39;reserve_requirement&#39;</span><span class="p">),</span>
+                   <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_requirement&#39;</span><span class="p">])</span></div>
+
+<div class="viewcode-block" id="VaticModelData.copy_elements"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.copy_elements">[docs]</a>    <span class="k">def</span> <span class="nf">copy_elements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                      <span class="n">other</span><span class="p">:</span> <span class="n">Self</span><span class="p">,</span> <span class="n">element_type</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+                      <span class="n">attrs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Iterable</span><span class="p">[</span><span class="nb">str</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">strict_mode</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">element_args</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replaces grid elements with those in another model data object.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        other   The model data object we will be copying from.</span>
+
+<span class="sd">        element_type    Which type of element to copy from.</span>
+<span class="sd">                            e.g. &#39;bus&#39;, &#39;generator&#39;, &#39;load&#39;, &#39;branch&#39;, etc.</span>
+<span class="sd">        attrs       If given, only copy data from within these element entry</span>
+<span class="sd">                    fields, e.g. &#39;p_min&#39;, &#39;generator_type&#39;, etc.</span>
+<span class="sd">        strict_mode     Raise an error if an element meeting the criteria</span>
+<span class="sd">                        for copying in the other model data object is not</span>
+<span class="sd">                        present in this model data object.</span>
+
+<span class="sd">        element_args    A set of element property values, all of which must be</span>
+<span class="sd">                        present in an element&#39;s data entry and equal to the</span>
+<span class="sd">                        given value for the element&#39;s entry to be copied.</span>
+<span class="sd">                            e.g. generator_type=&#39;thermal&#39; in_service=False</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">elem</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="p">,</span> <span class="o">**</span><span class="n">element_args</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="n">element_type</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">attrs</span><span class="p">:</span>
+                    <span class="k">for</span> <span class="n">attr</span> <span class="ow">in</span> <span class="n">attrs</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="n">element_type</span><span class="p">][</span><span class="n">name</span><span class="p">][</span><span class="n">attr</span><span class="p">]</span> \
+                            <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">elem</span><span class="p">[</span><span class="n">attr</span><span class="p">])</span>
+
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="n">element_type</span><span class="p">][</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">deepcopy</span><span class="p">(</span><span class="n">elem</span><span class="p">)</span>
+
+            <span class="k">elif</span> <span class="n">strict_mode</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="s2">&quot;Could not copy from other VaticModelData &quot;</span>
+                                 <span class="s2">&quot;object which contains the missing &quot;</span>
+                                 <span class="s2">&quot;element `</span><span class="si">{}</span><span class="s2">`!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">name</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="VaticModelData.copy_forecastables"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.copy_forecastables">[docs]</a>    <span class="k">def</span> <span class="nf">copy_forecastables</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                           <span class="n">other</span><span class="p">:</span> <span class="n">VModelData</span><span class="p">,</span>
+                           <span class="n">time_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">other_time_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replaces forecastable values with those from another model data.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        other               The model data object we will be copying from.</span>
+<span class="sd">        time_index          Which time step to replace in this model data.</span>
+<span class="sd">        other_time_index    Which time step to copy from in the other data.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                            <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;renewable&#39;</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="p">[</span><span class="s1">&#39;p_min&#39;</span><span class="p">,</span> <span class="s1">&#39;p_max&#39;</span><span class="p">,</span> <span class="s1">&#39;p_cost&#39;</span><span class="p">]:</span>
+                <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">gen_data</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">][</span><span class="n">gen</span><span class="p">][</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span>
+                        <span class="n">time_index</span><span class="p">]</span> <span class="o">=</span> <span class="n">gen_data</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">other_time_index</span><span class="p">]</span>
+
+        <span class="k">for</span> <span class="n">bus</span><span class="p">,</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s1">&#39;load&#39;</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span>
+                <span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;load&#39;</span><span class="p">][</span><span class="n">bus</span><span class="p">][</span><span class="s1">&#39;p_load&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">]</span> \
+                    <span class="o">=</span> <span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_load&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">other_time_index</span><span class="p">]</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_requirement&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">]</span> \
+            <span class="o">=</span> <span class="n">other</span><span class="o">.</span><span class="n">get_reserve_requirement</span><span class="p">(</span><span class="n">other_time_index</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VaticModelData.reset_timeseries"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.reset_timeseries">[docs]</a>    <span class="k">def</span> <span class="nf">reset_timeseries</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Replaces all timeseries entries with empty lists.&quot;&quot;&quot;</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;time_keys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;time_period_length_minutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">time_entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_series</span><span class="p">():</span>
+            <span class="n">time_entry</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="VaticModelData.set_time_steps"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.set_time_steps">[docs]</a>    <span class="k">def</span> <span class="nf">set_time_steps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                       <span class="n">time_steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+                       <span class="n">period_minutes</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initializes time indices, creates empty placeholder timeseries.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        time_steps      How many time steps there will be (creating time</span>
+<span class="sd">                        indices [1,2,...,&lt;time_steps&gt;]) or a list of the time</span>
+<span class="sd">                        indices themselves.</span>
+<span class="sd">        period_minutes      How many minutes are in each time step.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">time_steps</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;time_keys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="nb">str</span><span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">time_steps</span><span class="p">)]</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;time_keys&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">time_steps</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;time_period_length_minutes&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">period_minutes</span>
+
+        <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">time_entry</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">time_series</span><span class="p">():</span>
+            <span class="n">time_entry</span><span class="p">[</span><span class="s1">&#39;values&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span>
+                                    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;time_keys&#39;</span><span class="p">]]</span></div>
+
+<div class="viewcode-block" id="VaticModelData.honor_reserve_factor"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.honor_reserve_factor">[docs]</a>    <span class="k">def</span> <span class="nf">honor_reserve_factor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span>
+                             <span class="n">reserve_factor</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">time_index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Sets reserve requirement at a time point as a ratio of all demand.</span>
+
+<span class="sd">        Arguments</span>
+<span class="sd">        ---------</span>
+<span class="sd">        reserve_factor      The proportion of total system demand (load)</span>
+<span class="sd">                            that is necessary for the reserve requirement.</span>
+<span class="sd">        time_index          Which time step to set the reserve req at.</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">reserve_factor</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">total_load</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_load&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">]</span>
+                             <span class="k">for</span> <span class="n">bus</span><span class="p">,</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s1">&#39;load&#39;</span><span class="p">))</span>
+
+            <span class="n">cur_req</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span>
+                <span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_requirement&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_requirement&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="n">time_index</span><span class="p">]</span> \
+                <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">reserve_factor</span> <span class="o">*</span> <span class="n">total_load</span><span class="p">,</span> <span class="n">cur_req</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="VaticModelData.to_egret"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.to_egret">[docs]</a>    <span class="k">def</span> <span class="nf">to_egret</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EgretModel</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">EgretModel</span><span class="p">(</span><span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">))</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">model_runtime</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;solver_runtime&#39;</span><span class="p">]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">duration_minutes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;time_period_length_minutes&#39;</span><span class="p">]</span>
+
+<div class="viewcode-block" id="VaticModelData.get_max_power_output"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.get_max_power_output">[docs]</a>    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_max_power_output</span><span class="p">(</span><span class="n">gen_data</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_max&#39;</span><span class="p">],</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_max&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_max&#39;</span><span class="p">]</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">thermal_fleet_capacity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_max_power_output</span><span class="p">(</span><span class="n">gen_data</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                    <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">thermal_capacities</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_max_power_output</span><span class="p">(</span><span class="n">gen_data</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">thermal_minimum_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_min&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">total_demand</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">load_data</span><span class="p">[</span><span class="s1">&#39;p_load&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">load_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;load&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fixed_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;commitment_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                    <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">))</span>
+
+    <span class="c1">#TODO: allow for renewables to also have variable costs?</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">variable_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;production_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                    <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">total_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">fixed_costs</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">variable_costs</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">all_fixed_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;commitment_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">])</span>
+                   <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                    <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">all_variable_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;production_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">])</span>
+                   <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                    <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">thermal_generation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;pg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">renewable_generation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">gen</span><span class="p">:</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;pg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                               <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;renewable&#39;</span><span class="p">)</span>
+            <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">generation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;pg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reserves</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;rg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">load_shedding</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_balance_violation&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;bus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                   <span class="k">if</span> <span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_balance_violation&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mf">0.</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">over_generation</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="o">-</span><span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_balance_violation&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;bus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">()</span>
+                   <span class="k">if</span> <span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_balance_violation&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&lt;</span> <span class="mf">0.</span><span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reserve_shortfall</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;reserve_shortfall&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_shortfall&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reserve_requirement</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;reserve_requirement&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_requirement&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">reserve_RT_price</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="s1">&#39;reserve_price&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;system&#39;</span><span class="p">][</span><span class="s1">&#39;reserve_price&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">available_reserve</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;headroom&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                      <span class="o">+</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;rg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">available_quickstart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">][</span><span class="n">gen</span><span class="p">][</span><span class="s1">&#39;startup_capacity&#39;</span><span class="p">],</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">get_max_power_output</span><span class="p">(</span><span class="n">gen_data</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                               <span class="n">fast_start</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">was_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+                <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">][</span><span class="n">gen</span><span class="p">][</span>
+                    <span class="s1">&#39;min_up_time&#39;</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">)</span>
+            <span class="p">)</span>
+
+<div class="viewcode-block" id="VaticModelData.is_generator_on"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.is_generator_on">[docs]</a>    <span class="k">def</span> <span class="nf">is_generator_on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gen</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">gen</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">]:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;Generator `</span><span class="si">{}</span><span class="s2">` is not part of this model!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gen</span><span class="p">))</span>
+
+        <span class="n">gen_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">][</span><span class="n">gen</span><span class="p">]</span>
+        <span class="k">if</span> <span class="s1">&#39;fixed_commitment&#39;</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">][</span><span class="n">gen</span><span class="p">]:</span>
+            <span class="k">return</span> <span class="n">gen_dict</span><span class="p">[</span><span class="s1">&#39;fixed_commitment&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="k">elif</span> <span class="s1">&#39;commitment&#39;</span> <span class="ow">in</span> <span class="n">gen_dict</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">gen_dict</span><span class="p">[</span><span class="s1">&#39;commitment&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">ModelError</span><span class="p">(</span><span class="s2">&quot;Cannot find commitment status &quot;</span>
+                             <span class="s2">&quot;for generator `</span><span class="si">{}</span><span class="s2">`!&quot;</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">gen</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="VaticModelData.was_generator_on"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.was_generator_on">[docs]</a>    <span class="k">def</span> <span class="nf">was_generator_on</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gen</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">][</span><span class="n">gen</span><span class="p">][</span><span class="s1">&#39;initial_status&#39;</span><span class="p">]</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">initial_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;initial_status&#39;</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="c1">#TODO: put this in a sibling RUCModelData class?</span>
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">commitments</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="p">[</span><span class="nb">bool</span><span class="p">(</span><span class="n">cmt</span><span class="p">)</span> <span class="k">for</span> <span class="n">cmt</span> <span class="ow">in</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;commitment&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]]</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">available_renewables</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">get_max_power_output</span><span class="p">(</span><span class="n">gen_data</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">_</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                             <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;renewable&#39;</span><span class="p">)</span>
+            <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">on_offs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">is_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">was_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+                   <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                               <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">on_off_ramps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;pg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                   <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                      <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)</span>
+                   <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">was_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">nominal_ramps</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="nb">abs</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;pg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                       <span class="o">-</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;initial_p_output&#39;</span><span class="p">])</span>
+                   <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                      <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)</span>
+                   <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">was_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">))</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">price</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_demand</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="p">((</span><span class="bp">self</span><span class="o">.</span><span class="n">total_costs</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">total_demand</span><span class="p">)</span>
+                    <span class="o">*</span> <span class="p">(</span><span class="mi">60</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">duration_minutes</span><span class="p">))</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">return</span> <span class="mf">0.</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">quickstart_generators</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">gen</span> <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                <span class="n">fast_start</span><span class="o">=</span><span class="kc">True</span><span class="p">)]</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">quickstart_capable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">quick_starts</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">quickstart_generators</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="n">gen</span> <span class="ow">in</span> <span class="n">quick_starts</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                            <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">fuels</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">gen</span><span class="p">:</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;fuel&#39;</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">thermal_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                            <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">previous_thermal_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">was_generator_on</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                            <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+<div class="viewcode-block" id="VaticModelData.get_generator_cost"><a class="viewcode-back" href="../../src.html#src.model_data.VaticModelData.get_generator_cost">[docs]</a>    <span class="k">def</span> <span class="nf">get_generator_cost</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gen</span><span class="p">):</span>
+        <span class="n">gen_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;generator&#39;</span><span class="p">][</span><span class="n">gen</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;commitment_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="o">+</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;production_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span></div>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">generator_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_generator_cost</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">_</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                            <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">generator_total_costs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="p">(</span><span class="nb">sum</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;commitment_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">])</span>
+                      <span class="o">+</span> <span class="nb">sum</span><span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;production_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">]))</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">generator_total_prices</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="p">(</span><span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">1</span><span class="p">]</span>
+                      <span class="o">/</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;p_cost&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="o">-</span><span class="mi">1</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;thermal&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">curtailment</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">gen</span><span class="p">:</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_max_power_output</span><span class="p">(</span><span class="n">gen_data</span><span class="p">)</span>
+                      <span class="o">-</span> <span class="n">gen_data</span><span class="p">[</span><span class="s1">&#39;pg&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                <span class="k">for</span> <span class="n">gen</span><span class="p">,</span> <span class="n">gen_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="n">element_type</span><span class="o">=</span><span class="s1">&#39;generator&#39;</span><span class="p">,</span>
+                                                   <span class="n">generator_type</span><span class="o">=</span><span class="s1">&#39;renewable&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">flows</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">line</span><span class="p">:</span> <span class="n">line_data</span><span class="p">[</span><span class="s1">&#39;pf&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">line</span><span class="p">,</span> <span class="n">line_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">(</span><span class="s1">&#39;branch&#39;</span><span class="p">)}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bus_demands</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">bus</span><span class="p">:</span> <span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_load&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">bus</span><span class="p">,</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;load&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bus_mismatches</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">bus</span><span class="p">:</span> <span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;p_balance_violation&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">bus</span><span class="p">,</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;bus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">bus_LMPs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span><span class="n">bus</span><span class="p">:</span> <span class="n">bus_data</span><span class="p">[</span><span class="s1">&#39;lmp&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+                <span class="k">for</span> <span class="n">bus</span><span class="p">,</span> <span class="n">bus_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;bus&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">storage_inputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">store</span><span class="p">:</span> <span class="n">store_data</span><span class="p">[</span><span class="s1">&#39;p_charge&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">store</span><span class="p">,</span> <span class="n">store_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;storage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">storage_outputs</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">store</span><span class="p">:</span> <span class="n">store_data</span><span class="p">[</span><span class="s1">&#39;p_discharge&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">store</span><span class="p">,</span> <span class="n">store_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;storage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">storage_states</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">store</span><span class="p">:</span> <span class="n">store_data</span><span class="p">[</span><span class="s1">&#39;state_of_charge&#39;</span><span class="p">][</span><span class="s1">&#39;values&#39;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">for</span> <span class="n">store</span><span class="p">,</span> <span class="n">store_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;storage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">()</span>
+            <span class="p">}</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">storage_types</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">store</span><span class="p">,</span> <span class="n">store_data</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_data</span><span class="p">[</span><span class="s1">&#39;elements&#39;</span><span class="p">][</span><span class="s1">&#39;storage&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">pass</span>
+
+        <span class="k">return</span></div>
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Junying (Alice) Fang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

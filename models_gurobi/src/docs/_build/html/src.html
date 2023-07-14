@@ -1,0 +1,767 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>src package &mdash; Vatic_Gurobipy 1.0.0 documentation</title>
+      <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Vatic_Gurobipy
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <!-- Local TOC -->
+              <div class="local-toc"><ul>
+<li><a class="reference internal" href="#">src package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-src.model_data">src.model_data module</a><ul>
+<li><a class="reference internal" href="#src.model_data.ModelError"><code class="docutils literal notranslate"><span class="pre">ModelError</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData"><code class="docutils literal notranslate"><span class="pre">VaticModelData</span></code></a><ul>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.all_fixed_costs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.all_fixed_costs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.all_variable_costs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.all_variable_costs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.attributes"><code class="docutils literal notranslate"><span class="pre">VaticModelData.attributes()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.available_quickstart"><code class="docutils literal notranslate"><span class="pre">VaticModelData.available_quickstart</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.available_renewables"><code class="docutils literal notranslate"><span class="pre">VaticModelData.available_renewables</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.available_reserve"><code class="docutils literal notranslate"><span class="pre">VaticModelData.available_reserve</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.bus_LMPs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.bus_LMPs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.bus_demands"><code class="docutils literal notranslate"><span class="pre">VaticModelData.bus_demands</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.bus_mismatches"><code class="docutils literal notranslate"><span class="pre">VaticModelData.bus_mismatches</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.clone_in_service"><code class="docutils literal notranslate"><span class="pre">VaticModelData.clone_in_service()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.commitments"><code class="docutils literal notranslate"><span class="pre">VaticModelData.commitments</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.copy_elements"><code class="docutils literal notranslate"><span class="pre">VaticModelData.copy_elements()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.copy_forecastables"><code class="docutils literal notranslate"><span class="pre">VaticModelData.copy_forecastables()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.curtailment"><code class="docutils literal notranslate"><span class="pre">VaticModelData.curtailment</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.duration_minutes"><code class="docutils literal notranslate"><span class="pre">VaticModelData.duration_minutes</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.elements"><code class="docutils literal notranslate"><span class="pre">VaticModelData.elements()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.fixed_costs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.fixed_costs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.flows"><code class="docutils literal notranslate"><span class="pre">VaticModelData.flows</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.fuels"><code class="docutils literal notranslate"><span class="pre">VaticModelData.fuels</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.generation"><code class="docutils literal notranslate"><span class="pre">VaticModelData.generation</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.generator_costs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.generator_costs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.generator_total_costs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.generator_total_costs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.generator_total_prices"><code class="docutils literal notranslate"><span class="pre">VaticModelData.generator_total_prices</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.get_forecastables"><code class="docutils literal notranslate"><span class="pre">VaticModelData.get_forecastables()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.get_generator_cost"><code class="docutils literal notranslate"><span class="pre">VaticModelData.get_generator_cost()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.get_max_power_output"><code class="docutils literal notranslate"><span class="pre">VaticModelData.get_max_power_output()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.get_reserve_requirement"><code class="docutils literal notranslate"><span class="pre">VaticModelData.get_reserve_requirement()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.get_system_attr"><code class="docutils literal notranslate"><span class="pre">VaticModelData.get_system_attr()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.honor_reserve_factor"><code class="docutils literal notranslate"><span class="pre">VaticModelData.honor_reserve_factor()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.initial_states"><code class="docutils literal notranslate"><span class="pre">VaticModelData.initial_states</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.is_generator_on"><code class="docutils literal notranslate"><span class="pre">VaticModelData.is_generator_on()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.load_shedding"><code class="docutils literal notranslate"><span class="pre">VaticModelData.load_shedding</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.model_runtime"><code class="docutils literal notranslate"><span class="pre">VaticModelData.model_runtime</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.nominal_ramps"><code class="docutils literal notranslate"><span class="pre">VaticModelData.nominal_ramps</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.on_off_ramps"><code class="docutils literal notranslate"><span class="pre">VaticModelData.on_off_ramps</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.on_offs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.on_offs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.over_generation"><code class="docutils literal notranslate"><span class="pre">VaticModelData.over_generation</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.previous_thermal_states"><code class="docutils literal notranslate"><span class="pre">VaticModelData.previous_thermal_states</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.price"><code class="docutils literal notranslate"><span class="pre">VaticModelData.price</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.quickstart_capable"><code class="docutils literal notranslate"><span class="pre">VaticModelData.quickstart_capable</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.quickstart_generators"><code class="docutils literal notranslate"><span class="pre">VaticModelData.quickstart_generators</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.renewable_generation"><code class="docutils literal notranslate"><span class="pre">VaticModelData.renewable_generation</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.reserve_RT_price"><code class="docutils literal notranslate"><span class="pre">VaticModelData.reserve_RT_price</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.reserve_requirement"><code class="docutils literal notranslate"><span class="pre">VaticModelData.reserve_requirement</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.reserve_shortfall"><code class="docutils literal notranslate"><span class="pre">VaticModelData.reserve_shortfall</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.reserves"><code class="docutils literal notranslate"><span class="pre">VaticModelData.reserves</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.reset_timeseries"><code class="docutils literal notranslate"><span class="pre">VaticModelData.reset_timeseries()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.set_system_attr"><code class="docutils literal notranslate"><span class="pre">VaticModelData.set_system_attr()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.set_time_steps"><code class="docutils literal notranslate"><span class="pre">VaticModelData.set_time_steps()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.storage_inputs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.storage_inputs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.storage_outputs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.storage_outputs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.storage_states"><code class="docutils literal notranslate"><span class="pre">VaticModelData.storage_states</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.storage_types"><code class="docutils literal notranslate"><span class="pre">VaticModelData.storage_types</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.thermal_capacities"><code class="docutils literal notranslate"><span class="pre">VaticModelData.thermal_capacities</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.thermal_fleet_capacity"><code class="docutils literal notranslate"><span class="pre">VaticModelData.thermal_fleet_capacity</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.thermal_generation"><code class="docutils literal notranslate"><span class="pre">VaticModelData.thermal_generation</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.thermal_minimum_outputs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.thermal_minimum_outputs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.thermal_states"><code class="docutils literal notranslate"><span class="pre">VaticModelData.thermal_states</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.time_series"><code class="docutils literal notranslate"><span class="pre">VaticModelData.time_series()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.to_egret"><code class="docutils literal notranslate"><span class="pre">VaticModelData.to_egret()</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.total_costs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.total_costs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.total_demand"><code class="docutils literal notranslate"><span class="pre">VaticModelData.total_demand</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.variable_costs"><code class="docutils literal notranslate"><span class="pre">VaticModelData.variable_costs</span></code></a></li>
+<li><a class="reference internal" href="#src.model_data.VaticModelData.was_generator_on"><code class="docutils literal notranslate"><span class="pre">VaticModelData.was_generator_on()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-src">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Vatic_Gurobipy</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">src package</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/src.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="src-package">
+<h1>src package<a class="headerlink" href="#src-package" title="Permalink to this heading"></a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Permalink to this heading"></a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="src.construct_models_gurobi.html">src.construct_models_gurobi package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.generation_limits_gurobi">src.construct_models_gurobi.generation_limits_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.generation_limits_gurobi.MLR_generation_limits"><code class="docutils literal notranslate"><span class="pre">MLR_generation_limits()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.generation_limits_gurobi.pan_guan_gentile_KOW_generation_limits"><code class="docutils literal notranslate"><span class="pre">pan_guan_gentile_KOW_generation_limits()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.lazy_ptdf_utils_part_gurobi">src.construct_models_gurobi.lazy_ptdf_utils_part_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_initial_monitored_branches"><code class="docutils literal notranslate"><span class="pre">add_initial_monitored_branches()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.add_monitored_flow_tracker"><code class="docutils literal notranslate"><span class="pre">add_monitored_flow_tracker()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.check_and_scale_ptdf_options"><code class="docutils literal notranslate"><span class="pre">check_and_scale_ptdf_options()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.lazy_ptdf_utils_part_gurobi.populate_default_ptdf_options"><code class="docutils literal notranslate"><span class="pre">populate_default_ptdf_options()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.non_dispatchable_vars_gurobi">src.construct_models_gurobi.non_dispatchable_vars_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.non_dispatchable_vars_gurobi.file_non_dispatchable_vars"><code class="docutils literal notranslate"><span class="pre">file_non_dispatchable_vars()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.objective_gurobi">src.construct_models_gurobi.objective_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.objective_gurobi.basic_objective"><code class="docutils literal notranslate"><span class="pre">basic_objective()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.params_gurobi">src.construct_models_gurobi.params_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.params_gurobi.default_params"><code class="docutils literal notranslate"><span class="pre">default_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.params_gurobi.load_base_params"><code class="docutils literal notranslate"><span class="pre">load_base_params()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.params_gurobi.renew_cost_params"><code class="docutils literal notranslate"><span class="pre">renew_cost_params()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.power_balance_gurobi">src.construct_models_gurobi.power_balance_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.power_balance_gurobi.ptdf_power_flow"><code class="docutils literal notranslate"><span class="pre">ptdf_power_flow()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.power_vars_gurobi">src.construct_models_gurobi.power_vars_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.power_vars_gurobi.garver_power_vars"><code class="docutils literal notranslate"><span class="pre">garver_power_vars()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.production_costs_gurobi">src.construct_models_gurobi.production_costs_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.production_costs_gurobi.CA_production_costs"><code class="docutils literal notranslate"><span class="pre">CA_production_costs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.production_costs_gurobi.KOW_production_costs_tightened"><code class="docutils literal notranslate"><span class="pre">KOW_production_costs_tightened()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.ptdf_utils_gurobi">src.construct_models_gurobi.ptdf_utils_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_abs_max"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_ldf_abs_max()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_c"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_ldf_c()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_ldf_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_ldf_iterator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_losses_phase_shift"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_losses_phase_shift()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_branch_phi_losses_adj"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_branch_phi_losses_adj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFLossesMatrix.get_bus_phi_losses_adj"><code class="docutils literal notranslate"><span class="pre">PTDFLossesMatrix.get_bus_phi_losses_adj()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.bus_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.bus_iterator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.calculate_PFV"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.calculate_PFV()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_const"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_const()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phase_shift"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_phase_shift()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_phi_adj"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_phi_adj()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_ptdf_abs_max()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_branch_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_branch_ptdf_iterator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_const"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_interface_const()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_interface_ptdf_abs_max()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.PTDFMatrix.get_interface_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">PTDFMatrix.get_interface_ptdf_iterator()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_LMP"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_LMP()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_PFV()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_PFV_delta"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_PFV_delta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_masked_PFV()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_masked_PFV_delta"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_masked_PFV_delta()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.calculate_monitored_contingency_flows"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.calculate_monitored_contingency_flows()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_const"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_branch_const()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_branch_ptdf_abs_max()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_branch_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_branch_ptdf_iterator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_const"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_contingency_branch_const()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_contingency_branch_ptdf_abs_max()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_contingency_branch_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_contingency_branch_ptdf_iterator()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_const"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_interface_const()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_abs_max"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_interface_ptdf_abs_max()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ptdf_utils_gurobi.VirtualPTDFMatrix.get_interface_ptdf_iterator"><code class="docutils literal notranslate"><span class="pre">VirtualPTDFMatrix.get_interface_ptdf_iterator()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.ramping_limits_gurobi">src.construct_models_gurobi.ramping_limits_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.ramping_limits_gurobi.damcikurt_ramping"><code class="docutils literal notranslate"><span class="pre">damcikurt_ramping()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.reserve_requirement_gurobi">src.construct_models_gurobi.reserve_requirement_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.reserve_requirement_gurobi.CA_reserve_constraints"><code class="docutils literal notranslate"><span class="pre">CA_reserve_constraints()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.reserve_requirement_gurobi.MLR_reserve_constraints"><code class="docutils literal notranslate"><span class="pre">MLR_reserve_constraints()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.reserve_vars_gurobi">src.construct_models_gurobi.reserve_vars_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.reserve_vars_gurobi.MLR_reserve_vars"><code class="docutils literal notranslate"><span class="pre">MLR_reserve_vars()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.reserve_vars_gurobi.check_reserve_requirement"><code class="docutils literal notranslate"><span class="pre">check_reserve_requirement()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.reserve_vars_gurobi.garver_power_avail_vars"><code class="docutils literal notranslate"><span class="pre">garver_power_avail_vars()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.services_gurobi">src.construct_models_gurobi.services_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.services_gurobi.ancillary_services"><code class="docutils literal notranslate"><span class="pre">ancillary_services()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.services_gurobi.storage_services"><code class="docutils literal notranslate"><span class="pre">storage_services()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.startup_costs_gurobi">src.construct_models_gurobi.startup_costs_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.startup_costs_gurobi.KOW_startup_costs"><code class="docutils literal notranslate"><span class="pre">KOW_startup_costs()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.startup_costs_gurobi.MLR_startup_costs"><code class="docutils literal notranslate"><span class="pre">MLR_startup_costs()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi.uptime_downtime_gurobi">src.construct_models_gurobi.uptime_downtime_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.construct_models_gurobi.html#src.construct_models_gurobi.uptime_downtime_gurobi.rajan_takriti_UT_DT"><code class="docutils literal notranslate"><span class="pre">rajan_takriti_UT_DT()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.construct_models_gurobi.html#module-src.construct_models_gurobi">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.main_model_functions_gurobi.html">src.main_model_functions_gurobi package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.main_model_functions_gurobi.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.main_model_functions_gurobi.html#module-src.main_model_functions_gurobi.generate_model_gurobi">src.main_model_functions_gurobi.generate_model_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.main_model_functions_gurobi.html#src.main_model_functions_gurobi.generate_model_gurobi.generate_model"><code class="docutils literal notranslate"><span class="pre">generate_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.main_model_functions_gurobi.html#module-src.main_model_functions_gurobi.solve_model_gurobi">src.main_model_functions_gurobi.solve_model_gurobi module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.main_model_functions_gurobi.html#src.main_model_functions_gurobi.solve_model_gurobi.solve_model"><code class="docutils literal notranslate"><span class="pre">solve_model()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.main_model_functions_gurobi.html#module-src.main_model_functions_gurobi">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="src.transmission_gurobi.html">src.transmission_gurobi package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="src.transmission_gurobi.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="src.transmission_gurobi.html#module-src.transmission_gurobi.branch">src.transmission_gurobi.branch module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.declare_eq_branch_power_ptdf_approx"><code class="docutils literal notranslate"><span class="pre">declare_eq_branch_power_ptdf_approx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.declare_eq_interface_power_ptdf_approx"><code class="docutils literal notranslate"><span class="pre">declare_eq_interface_power_ptdf_approx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.declare_expr_pf"><code class="docutils literal notranslate"><span class="pre">declare_expr_pf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.declare_ineq_p_branch_thermal_bounds"><code class="docutils literal notranslate"><span class="pre">declare_ineq_p_branch_thermal_bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.declare_ineq_p_contingency_branch_thermal_bounds"><code class="docutils literal notranslate"><span class="pre">declare_ineq_p_contingency_branch_thermal_bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.declare_ineq_p_interface_bounds"><code class="docutils literal notranslate"><span class="pre">declare_ineq_p_interface_bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.declare_ineq_s_branch_thermal_limit"><code class="docutils literal notranslate"><span class="pre">declare_ineq_s_branch_thermal_limit()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.generate_thermal_bounds"><code class="docutils literal notranslate"><span class="pre">generate_thermal_bounds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.get_power_flow_expr_ptdf_approx"><code class="docutils literal notranslate"><span class="pre">get_power_flow_expr_ptdf_approx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.branch.get_power_flow_interface_expr_ptdf"><code class="docutils literal notranslate"><span class="pre">get_power_flow_interface_expr_ptdf()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.transmission_gurobi.html#module-src.transmission_gurobi.bus">src.transmission_gurobi.bus module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.bus.declare_eq_p_balance_ed"><code class="docutils literal notranslate"><span class="pre">declare_eq_p_balance_ed()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="src.transmission_gurobi.html#src.transmission_gurobi.bus.declare_eq_p_net_withdraw_at_bus"><code class="docutils literal notranslate"><span class="pre">declare_eq_p_net_withdraw_at_bus()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="src.transmission_gurobi.html#module-src.transmission_gurobi">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this heading"></a></h2>
+</section>
+<section id="module-src.model_data">
+<span id="src-model-data-module"></span><h2>src.model_data module<a class="headerlink" href="#module-src.model_data" title="Permalink to this heading"></a></h2>
+<p>Representations of grid states used as optimization model input/output.</p>
+<dl class="py exception">
+<dt class="sig sig-object py" id="src.model_data.ModelError">
+<em class="property"><span class="pre">exception</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model_data.</span></span><span class="sig-name descname"><span class="pre">ModelError</span></span><a class="reference internal" href="_modules/src/model_data.html#ModelError"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.ModelError" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">Exception</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">src.model_data.</span></span><span class="sig-name descname"><span class="pre">VaticModelData</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">VModelData</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">Path</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData" title="Permalink to this definition"></a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p>Simplified version of egret.data.model_data.ModelData</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.all_fixed_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all_fixed_costs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.all_fixed_costs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.all_variable_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">all_variable_costs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.all_variable_costs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.attributes">
+<span class="sig-name descname"><span class="pre">attributes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">element_args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.attributes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.attributes" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves grid elements and organizes their data by attribute.</p>
+<p>This function is identical to the above <cite>elements</cite> function, but it
+arranges the data of the elements matching the given criteria in a
+dictionary whose top-level keys are attribute names (e.g. ‘base_kv’,
+‘fuel’, ‘p_min’, etc.), each of whose entries list the element names
+and their corresponding attribute values.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.available_quickstart">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">available_quickstart</span></span><a class="headerlink" href="#src.model_data.VaticModelData.available_quickstart" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.available_renewables">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">available_renewables</span></span><a class="headerlink" href="#src.model_data.VaticModelData.available_renewables" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.available_reserve">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">available_reserve</span></span><a class="headerlink" href="#src.model_data.VaticModelData.available_reserve" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.bus_LMPs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bus_LMPs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.bus_LMPs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.bus_demands">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bus_demands</span></span><a class="headerlink" href="#src.model_data.VaticModelData.bus_demands" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.bus_mismatches">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">bus_mismatches</span></span><a class="headerlink" href="#src.model_data.VaticModelData.bus_mismatches" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.clone_in_service">
+<span class="sig-name descname"><span class="pre">clone_in_service</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">VModelData</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.clone_in_service"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.clone_in_service" title="Permalink to this definition"></a></dt>
+<dd><p>Returns a version of this grid without out-of-service elements.</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.commitments">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">commitments</span></span><a class="headerlink" href="#src.model_data.VaticModelData.commitments" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.copy_elements">
+<span class="sig-name descname"><span class="pre">copy_elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">element_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">strict_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">element_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.copy_elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.copy_elements" title="Permalink to this definition"></a></dt>
+<dd><p>Replaces grid elements with those in another model data object.</p>
+<section id="arguments">
+<h3>Arguments<a class="headerlink" href="#arguments" title="Permalink to this heading"></a></h3>
+<p>other   The model data object we will be copying from.</p>
+<dl>
+<dt>element_type    Which type of element to copy from.</dt><dd><p>e.g. ‘bus’, ‘generator’, ‘load’, ‘branch’, etc.</p>
+</dd>
+<dt>attrs       If given, only copy data from within these element entry</dt><dd><p>fields, e.g. ‘p_min’, ‘generator_type’, etc.</p>
+</dd>
+<dt>strict_mode     Raise an error if an element meeting the criteria</dt><dd><p>for copying in the other model data object is not
+present in this model data object.</p>
+</dd>
+<dt>element_args    A set of element property values, all of which must be</dt><dd><p>present in an element’s data entry and equal to the
+given value for the element’s entry to be copied.</p>
+<blockquote>
+<div><p>e.g. generator_type=’thermal’ in_service=False</p>
+</div></blockquote>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.copy_forecastables">
+<span class="sig-name descname"><span class="pre">copy_forecastables</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">other</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">VModelData</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">other_time_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.copy_forecastables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.copy_forecastables" title="Permalink to this definition"></a></dt>
+<dd><p>Replaces forecastable values with those from another model data.</p>
+<section id="id1">
+<h3>Arguments<a class="headerlink" href="#id1" title="Permalink to this heading"></a></h3>
+<p>other               The model data object we will be copying from.
+time_index          Which time step to replace in this model data.
+other_time_index    Which time step to copy from in the other data.</p>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.curtailment">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">curtailment</span></span><a class="headerlink" href="#src.model_data.VaticModelData.curtailment" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.duration_minutes">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">duration_minutes</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><a class="headerlink" href="#src.model_data.VaticModelData.duration_minutes" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.elements">
+<span class="sig-name descname"><span class="pre">elements</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">element_args</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">dict</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.elements"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.elements" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves grid elements that match a set of criteria.</p>
+<section id="id2">
+<h3>Arguments<a class="headerlink" href="#id2" title="Permalink to this heading"></a></h3>
+<dl>
+<dt>element_type    Which type of element to search within, e.g. ‘bus’,</dt><dd><p>‘generator’, ‘load’, ‘branch’, etc.</p>
+</dd>
+<dt>element_args    A set of element property values, all of which must be</dt><dd><p>present in an element’s data entry and equal to the
+given value for the element’s entry to be returned.</p>
+<blockquote>
+<div><p>e.g. generator_type=’renewable’ bus=’Chifa’</p>
+</div></blockquote>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.fixed_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fixed_costs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.fixed_costs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.flows">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">flows</span></span><a class="headerlink" href="#src.model_data.VaticModelData.flows" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.fuels">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fuels</span></span><a class="headerlink" href="#src.model_data.VaticModelData.fuels" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.generation">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generation</span></span><a class="headerlink" href="#src.model_data.VaticModelData.generation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.generator_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generator_costs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.generator_costs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.generator_total_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generator_total_costs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.generator_total_costs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.generator_total_prices">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">generator_total_prices</span></span><a class="headerlink" href="#src.model_data.VaticModelData.generator_total_prices" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.get_forecastables">
+<span class="sig-name descname"><span class="pre">get_forecastables</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.get_forecastables"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.get_forecastables" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves grid elements’ timeseries that can be forecast.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.get_generator_cost">
+<span class="sig-name descname"><span class="pre">get_generator_cost</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gen</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.get_generator_cost"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.get_generator_cost" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.get_max_power_output">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_max_power_output</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gen_data</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.get_max_power_output"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.get_max_power_output" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.get_reserve_requirement">
+<span class="sig-name descname"><span class="pre">get_reserve_requirement</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_index</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.get_reserve_requirement"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.get_reserve_requirement" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.get_system_attr">
+<span class="sig-name descname"><span class="pre">get_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">default</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Any</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.get_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.get_system_attr" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.honor_reserve_factor">
+<span class="sig-name descname"><span class="pre">honor_reserve_factor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">reserve_factor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">time_index</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.honor_reserve_factor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.honor_reserve_factor" title="Permalink to this definition"></a></dt>
+<dd><p>Sets reserve requirement at a time point as a ratio of all demand.</p>
+<section id="id3">
+<h3>Arguments<a class="headerlink" href="#id3" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>reserve_factor      The proportion of total system demand (load)</dt><dd><p>that is necessary for the reserve requirement.</p>
+</dd>
+</dl>
+<p>time_index          Which time step to set the reserve req at.</p>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.initial_states">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">initial_states</span></span><a class="headerlink" href="#src.model_data.VaticModelData.initial_states" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.is_generator_on">
+<span class="sig-name descname"><span class="pre">is_generator_on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gen</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.is_generator_on"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.is_generator_on" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.load_shedding">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_shedding</span></span><a class="headerlink" href="#src.model_data.VaticModelData.load_shedding" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.model_runtime">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">model_runtime</span></span><a class="headerlink" href="#src.model_data.VaticModelData.model_runtime" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.nominal_ramps">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">nominal_ramps</span></span><a class="headerlink" href="#src.model_data.VaticModelData.nominal_ramps" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.on_off_ramps">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_off_ramps</span></span><a class="headerlink" href="#src.model_data.VaticModelData.on_off_ramps" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.on_offs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">on_offs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.on_offs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.over_generation">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">over_generation</span></span><a class="headerlink" href="#src.model_data.VaticModelData.over_generation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.previous_thermal_states">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">previous_thermal_states</span></span><a class="headerlink" href="#src.model_data.VaticModelData.previous_thermal_states" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.price">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">price</span></span><a class="headerlink" href="#src.model_data.VaticModelData.price" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.quickstart_capable">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quickstart_capable</span></span><a class="headerlink" href="#src.model_data.VaticModelData.quickstart_capable" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.quickstart_generators">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">quickstart_generators</span></span><a class="headerlink" href="#src.model_data.VaticModelData.quickstart_generators" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.renewable_generation">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">renewable_generation</span></span><a class="headerlink" href="#src.model_data.VaticModelData.renewable_generation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.reserve_RT_price">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reserve_RT_price</span></span><a class="headerlink" href="#src.model_data.VaticModelData.reserve_RT_price" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.reserve_requirement">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reserve_requirement</span></span><a class="headerlink" href="#src.model_data.VaticModelData.reserve_requirement" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.reserve_shortfall">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reserve_shortfall</span></span><a class="headerlink" href="#src.model_data.VaticModelData.reserve_shortfall" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.reserves">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">reserves</span></span><a class="headerlink" href="#src.model_data.VaticModelData.reserves" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.reset_timeseries">
+<span class="sig-name descname"><span class="pre">reset_timeseries</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.reset_timeseries"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.reset_timeseries" title="Permalink to this definition"></a></dt>
+<dd><p>Replaces all timeseries entries with empty lists.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.set_system_attr">
+<span class="sig-name descname"><span class="pre">set_system_attr</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">attr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.set_system_attr"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.set_system_attr" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.set_time_steps">
+<span class="sig-name descname"><span class="pre">set_time_steps</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">time_steps</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">list</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">period_minutes</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.set_time_steps"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.set_time_steps" title="Permalink to this definition"></a></dt>
+<dd><p>Initializes time indices, creates empty placeholder timeseries.</p>
+<section id="id4">
+<h3>Arguments<a class="headerlink" href="#id4" title="Permalink to this heading"></a></h3>
+<dl class="simple">
+<dt>time_steps      How many time steps there will be (creating time</dt><dd><p>indices [1,2,…,&lt;time_steps&gt;]) or a list of the time
+indices themselves.</p>
+</dd>
+</dl>
+<p>period_minutes      How many minutes are in each time step.</p>
+</section>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.storage_inputs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_inputs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.storage_inputs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.storage_outputs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_outputs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.storage_outputs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.storage_states">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_states</span></span><a class="headerlink" href="#src.model_data.VaticModelData.storage_states" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.storage_types">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">storage_types</span></span><a class="headerlink" href="#src.model_data.VaticModelData.storage_types" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.thermal_capacities">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thermal_capacities</span></span><a class="headerlink" href="#src.model_data.VaticModelData.thermal_capacities" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.thermal_fleet_capacity">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thermal_fleet_capacity</span></span><a class="headerlink" href="#src.model_data.VaticModelData.thermal_fleet_capacity" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.thermal_generation">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thermal_generation</span></span><a class="headerlink" href="#src.model_data.VaticModelData.thermal_generation" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.thermal_minimum_outputs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thermal_minimum_outputs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.thermal_minimum_outputs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.thermal_states">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">thermal_states</span></span><a class="headerlink" href="#src.model_data.VaticModelData.thermal_states" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.time_series">
+<span class="sig-name descname"><span class="pre">time_series</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">element_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Iterable</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">include_reserves</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">element_args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Iterator</span><span class="p"><span class="pre">[</span></span><span class="pre">tuple</span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.time_series"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.time_series" title="Permalink to this definition"></a></dt>
+<dd><p>Retrieves timeseries for grid elements that match a set of criteria.</p>
+<section id="id5">
+<h3>Arguments<a class="headerlink" href="#id5" title="Permalink to this heading"></a></h3>
+<dl>
+<dt>element_types   Which types of element to search within,</dt><dd><p>e.g. ‘storage’, ‘load’, generator’, ‘bus’, etc.</p>
+</dd>
+<dt>include_reserves    Whether to return reserve requirements, which</dt><dd><p>will never be returned otherwise.</p>
+</dd>
+<dt>element_args    A set of element property values, all of which must be</dt><dd><p>present in an element’s data entry and equal to the
+given value for the element’s entry to be returned.</p>
+<blockquote>
+<div><p>e.g. generator_type=’thermal’ in_service=True</p>
+</div></blockquote>
+</dd>
+</dl>
+</section>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.to_egret">
+<span class="sig-name descname"><span class="pre">to_egret</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ModelData</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.to_egret"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.to_egret" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.total_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_costs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.total_costs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.total_demand">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">total_demand</span></span><a class="headerlink" href="#src.model_data.VaticModelData.total_demand" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.variable_costs">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">variable_costs</span></span><a class="headerlink" href="#src.model_data.VaticModelData.variable_costs" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="src.model_data.VaticModelData.was_generator_on">
+<span class="sig-name descname"><span class="pre">was_generator_on</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">gen</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">bool</span></span></span><a class="reference internal" href="_modules/src/model_data.html#VaticModelData.was_generator_on"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#src.model_data.VaticModelData.was_generator_on" title="Permalink to this definition"></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-src">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-src" title="Permalink to this heading"></a></h2>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, Junying (Alice) Fang.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
